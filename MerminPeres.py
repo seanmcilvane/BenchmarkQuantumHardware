@@ -3,7 +3,7 @@ from qiskit import QuantumCircuit
 
 def MerminPeresCircuit(X, Y):
     
-    qc = QuantumCircuit(4, 4)
+    qc = QuantumCircuit(4)
 
     qc.h(0)
     qc.h(1)
