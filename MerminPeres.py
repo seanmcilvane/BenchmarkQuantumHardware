@@ -1,5 +1,6 @@
 from qiskit import *
 from qiskit import QuantumCircuit
+from collections import Counter
 
 def MerminPeresCircuit(X, Y):
     
@@ -82,3 +83,26 @@ def MerminPeresCircuit(X, Y):
     qc.measure_all()
     
     return qc
+
+
+
+def classical_simulation_mermin_peres(backend = Aer.get_backend('qasm_simulator'), shots = 1024):
+    
+    total_counts = {}                                  
+    for X in range(3):
+        
+        for Y in range(3):
+    
+            qc = MerminPeresCircuit(X, Y)
+        
+            t_qc = transpile(qc, backend)
+
+            # Run and get counts
+    
+            job_sim = backend.run(t_qc, shots = shots)
+            
+            result_sim = job_sim.result()
+            counts = result_sim.get_counts(qc)
+            total_counts = Counter(total_counts) + Counter(counts)
+                                      
+    return total_counts
